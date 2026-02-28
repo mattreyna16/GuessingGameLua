@@ -1,0 +1,61 @@
+-- Name: Matthew Reyna
+-- Date: 02/26/2026
+-- Lua guessing game
+
+isRunning = true
+numGuesses = 0
+
+-- create randomness using a seed and generate a random number
+math.randomseed(os.time())
+randNumber = math.random(1, 100)
+
+-- function to ask the player if they want to play again
+function playAgain()
+    io.write("Do you want to play again? (yes or no): ")
+    playAgainChoice = io.read()
+
+    if playAgainChoice == "yes" then
+        numGuesses = 0
+        randNumber = math.random(1, 100)
+    elseif playAgainChoice == "no" then
+        isRunning = false
+        print("Thanks for playing!")
+    end
+end
+
+print("Welcome to the Guessing Game!")
+print("Try to guess a random number between 1 and 100.")
+print("You have 7 guesses. Good luck!")
+
+-- main game loop
+while isRunning == true do
+    -- stores the player guess
+    io.write("\n","Enter your guess: ")
+    local playerGuess = tonumber(io.read())
+
+    -- input validation
+    if playerGuess == nil then
+        print("Please enter a valid number.")
+
+    else
+        -- if everything goes right so far then increase the guess count
+        -- by one and check if the guess is too high or too low
+        numGuesses = numGuesses + 1
+
+        if playerGuess < randNumber then
+            print("Too low! Try again.")
+
+        elseif playerGuess > randNumber then
+            print("Too high! Try again.")
+
+        else
+            print("\n","Correct! You guessed the number in", numGuesses, "guesses!")
+            playAgain()
+        end
+
+        if numGuesses == 8 then
+            print("\n","Out of guesses! Game over!")
+            playAgain()
+        end
+    end
+end
